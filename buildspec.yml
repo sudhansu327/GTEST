@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto8
+    commands:
+    - echo installing maven...
+    - apt-get update -y
+    - apt-get install -y maven
+  build:
+    commands:
+      - echo Build started on `date`
+      - mvn install
+      - mvn test
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - mvn package
+artifacts:
+  files:
+    - target/*.jar
+    - scripts/*.sh
+    - appspec.yml
+  discard-paths: yes
+cache:
+  paths:
+  - '/root/.m2/**/*'
